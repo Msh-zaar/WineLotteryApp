@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WineLotteryApp.Domain.Models;
+using WineLotteryApp.Services;
 
 namespace WineLotteryApp.Controllers;
 
@@ -7,16 +8,66 @@ namespace WineLotteryApp.Controllers;
 [Route("[controller]")]
 public class LotteryController : ControllerBase
 {
-    [HttpGet(Name = "GetLottery")]
-    public ActionResult GetLottery()
+    private readonly ILotteryService _lotteryService;
+
+    public LotteryController(ILotteryService lotteryService)
     {
-        return Ok("Get Lottery");
+        _lotteryService = lotteryService;
     }
 
-    [HttpPost(Name = "AddEntrant")]
-    public ActionResult AddEntrant([FromBody] Entrant entrant)
+    [HttpPost("AddEntrant")]
+    public Entrant AddEntrant(string name)
     {
+        return _lotteryService.AddEntrant(name);
+    }
 
-        return Ok(entrant.Name);
+    [HttpGet("GetEntrants")]
+    public List<Entrant> GetEntrants()
+    {
+        return _lotteryService.GetEntrants();
+    }
+
+    [HttpPost("GenerateTickets")]
+    public ActionResult GenerateTickets()
+    {
+        _lotteryService.GenerateTickets();
+        return Ok();
+    }
+
+    [HttpGet("GetTickets")]
+    public List<Ticket> GetTickets()
+    {
+        return _lotteryService.GetTickets();
+    }
+
+    [HttpPost("GenerateWines")]
+    public ActionResult GenerateWines()
+    {
+        _lotteryService.GenerateWines();
+        return Ok();
+    }
+
+    [HttpGet("GetWines")]
+    public List<Wine> GetWines()
+    {
+        return _lotteryService.GetWines();
+    }
+
+    [HttpPost("BuyTickets")]
+    public Entrant BuyTicket(string entrantName, List<int> ticketNumbers)
+    {
+        return _lotteryService.BuyTicket(entrantName, ticketNumbers);
+    }
+
+    [HttpPost("RunLottery")]
+    public List<Entrant> RunLottery()
+    {
+        return _lotteryService.RunLottery();
+    }
+
+    [HttpPost("TestRun")]
+    public List<Entrant> TestRun()
+    {
+        return _lotteryService.TestRun();
     }
 }
