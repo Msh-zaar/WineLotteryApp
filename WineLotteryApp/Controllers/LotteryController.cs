@@ -69,4 +69,11 @@ public class LotteryController : ControllerBase
     {
         return _lotteryService.TestRun();
     }
+
+    [HttpPost("ResetLottery")]
+    public ActionResult ResetLottery()
+    {
+        _lotteryService.ResetLottery();
+        return Ok();
+    }
 }

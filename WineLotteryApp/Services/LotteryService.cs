@@ -112,13 +112,10 @@ public class LotteryService : ILotteryService
     {
         Random random = new Random();
         List<Entrant> winners = new List<Entrant>();
-        List<int> winningTicketList = new List<int>();
-        string winnerString = $"The winning numbers are {winningTicketList[0]}, {winningTicketList[1]} and {winningTicketList[2]}. Congratulations to our lucky winner(s)!";
 
         while (Wines.Count > 0)
         {
             int winningTicketNumber = random.Next(1, 101);
-            winningTicketList.Add(winningTicketNumber);
             var winner = Entrants.FirstOrDefault(e => e.Tickets.Any(t => t.Number == winningTicketNumber));
             if (winner != null)
             {
@@ -145,5 +142,12 @@ public class LotteryService : ILotteryService
         BuyTicket("Bob", new List<int> { 4, 5, 6 });
         BuyTicket("Charlie", new List<int> { 7, 8, 9 });
         return RunLottery();
+    }
+
+    public void ResetLottery()
+    {
+        Entrants.Clear();
+        Tickets.Clear();
+        Wines.Clear();
     }
 }

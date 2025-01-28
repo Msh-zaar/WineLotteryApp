@@ -19,5 +19,6 @@ namespace WineLotteryApp.Services
         Entrant BuyTicket(string entrantName, List<int> ticketNumbers);
         List<Entrant> RunLottery();
         List<Entrant> TestRun();
+        void ResetLottery();
     }
 }
