@@ -1,4 +1,4 @@
-﻿using WineLotteryApp.Domain.Models;
+﻿using WineLotteryApp.Models;
 
 namespace WineLotteryApp.Services
 {
@@ -14,7 +14,7 @@ namespace WineLotteryApp.Services
         List<Entrant> GetEntrants();
         void GenerateTickets();
         List<Ticket> GetTickets();
-        void GenerateWines();
+        List<Wine> GenerateWines();
         List<Wine> GetWines();
         Entrant BuyTicket(string entrantName, List<int> ticketNumbers);
         List<Entrant> RunLottery();
