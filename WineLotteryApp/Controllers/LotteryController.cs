@@ -5,7 +5,7 @@ using WineLotteryApp.Services;
 namespace WineLotteryApp.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("/")]
 public class LotteryController : ControllerBase
 {
     private readonly ILotteryService _lotteryService;
