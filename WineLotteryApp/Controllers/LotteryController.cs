@@ -53,7 +53,7 @@ public class LotteryController : ControllerBase
     }
 
     [HttpPost("BuyTickets")]
-    public Entrant BuyTicket(string entrantName, List<int> ticketNumbers)
+    public Entrant BuyTicket(string entrantName, [FromBody] List<int> ticketNumbers)
     {
         return _lotteryService.BuyTicket(entrantName, ticketNumbers);
     }
