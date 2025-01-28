@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WineLotteryApp", "WineLotte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WineLotteryApp.Domain", "WineLotteryApp.Domain\WineLotteryApp.Domain.csproj", "{0C27DEDA-D754-4F0F-BAC2-D4B00292FEFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WineLotteryApp.Web", "WineLotteryApp.Web\WineLotteryApp.Web.csproj", "{8EBE1B46-1636-4EB3-90AA-C382933DBBE9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{0C27DEDA-D754-4F0F-BAC2-D4B00292FEFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C27DEDA-D754-4F0F-BAC2-D4B00292FEFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C27DEDA-D754-4F0F-BAC2-D4B00292FEFE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8EBE1B46-1636-4EB3-90AA-C382933DBBE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8EBE1B46-1636-4EB3-90AA-C382933DBBE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8EBE1B46-1636-4EB3-90AA-C382933DBBE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8EBE1B46-1636-4EB3-90AA-C382933DBBE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
