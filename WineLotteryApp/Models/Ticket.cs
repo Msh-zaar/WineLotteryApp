@@ -1,4 +1,4 @@
-﻿namespace WineLotteryApp.Domain.Models;
+﻿namespace WineLotteryApp.Models;
 
 public class Ticket
 {

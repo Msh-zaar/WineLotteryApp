@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using WineLotteryApp.Domain.Models;
+using WineLotteryApp.Models;
 using WineLotteryApp.Services;
 
 namespace WineLotteryApp.Controllers;
@@ -41,10 +41,9 @@ public class LotteryController : ControllerBase
     }
 
     [HttpPost("GenerateWines")]
-    public ActionResult GenerateWines()
+    public List<Wine> GenerateWines()
     {
-        _lotteryService.GenerateWines();
-        return Ok();
+        return _lotteryService.GenerateWines();
     }
 
     [HttpGet("GetWines")]
@@ -54,7 +53,7 @@ public class LotteryController : ControllerBase
     }
 
     [HttpPost("BuyTickets")]
-    public Entrant BuyTicket(string entrantName, List<int> ticketNumbers)
+    public Entrant BuyTicket(string entrantName, [FromBody] List<int> ticketNumbers)
     {
         return _lotteryService.BuyTicket(entrantName, ticketNumbers);
     }
