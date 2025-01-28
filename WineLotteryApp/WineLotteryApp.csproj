@@ -14,4 +14,8 @@
     <ProjectReference Include="..\WineLotteryApp.Domain\WineLotteryApp.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 </Project>
