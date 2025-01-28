@@ -8,17 +8,19 @@ public class LotteryService : ILotteryService
     public List<Ticket> Tickets { get; private set; } = new();
     public List<Wine> Wines { get; private set; } = new();
 
-    public List<string> WineNames = new()
+    private List<string> WineNames = new()
     {
-        "Fjord Vin",
-    "Nordlys Nectar",
-    "Viking Vintner",
-    "Skål Skjønnhet",
-    "Oslo Opulence",
-    "Bergen Bliss",
-    "Arctic Ambrosia",
-    "Midnight Sun Merlot",
-    "Fjell Chardonnay"
+        "Rødmusset Rørosing",
+        "Brusende Bergenser",
+        "Haldens Hvite",
+        "Råde Rød",
+        "Skogsbær Syrah",
+        "Isbre Isvin",
+        "Fjordens Favoritt",
+        "Nordisk Nektar",
+        "Trollskog Tempranillo",
+        "Vinter Vin",
+        "Sommer Sauvignon"
     };
 
     private int numberOfTickets = 101;
@@ -86,11 +88,11 @@ public class LotteryService : ILotteryService
         var entrant = Entrants.FirstOrDefault(e => e.Name == entrantName);
         if (entrant == null)
         {
-            throw new Exception("Entrant not found");
+            throw new InvalidOperationException("Entrant not found");
         }
         if (entrant.Money < ticketNumbers.Count * 10)
         {
-            throw new Exception("Not enough money");
+            throw new InvalidOperationException("Not enough money");
         }
 
         foreach (var ticketNumber in ticketNumbers)
@@ -98,7 +100,7 @@ public class LotteryService : ILotteryService
             var ticket = Tickets.FirstOrDefault(t => t.Number == ticketNumber);
             if (ticket == null)
             {
-                throw new Exception($"Ticket number {ticketNumber} not found");
+                throw new InvalidOperationException($"Ticket number {ticketNumber} not found");
             }
             entrant.Money -= ticket.Price;
             entrant.Tickets.Add(ticket);
@@ -110,22 +112,46 @@ public class LotteryService : ILotteryService
 
     public List<Entrant> RunLottery()
     {
+        if (Entrants == null || !Entrants.Any())
+            throw new InvalidOperationException("No entrants available");
+
+        if (Wines == null || !Wines.Any())
+            throw new InvalidOperationException("No wines available");
+
+        if (Tickets == null || !Tickets.Any())
+            throw new InvalidOperationException("No tickets available");
+
+
         Random random = new Random();
         List<Entrant> winners = new List<Entrant>();
+        List<int> ticketsInPlay = GetBoughtTickets(); // Get all tickets that have been bought, no need to draw tickets that have not been bought
 
-        while (Wines.Count > 0)
+        if (!ticketsInPlay.Any())
+            throw new InvalidOperationException("No tickets have been bought.");
+
+        while (Wines.Count > 0) // Draw wines until all wines are drawn
         {
-            int winningTicketNumber = random.Next(1, 101);
-            var winner = Entrants.FirstOrDefault(e => e.Tickets.Any(t => t.Number == winningTicketNumber));
+            int winningTicketNumber = random.Next(ticketsInPlay.Count);
+
+            var winner = Entrants.FirstOrDefault(e => e.Tickets.Any(t => t.Number == ticketsInPlay[winningTicketNumber]));
             if (winner != null)
             {
                 winner.Wines.Add(Wines[0]);
                 Wines.RemoveAt(0);
-                if (!winners.Contains(winner))
+                if (!winners.Contains(winner)) // No need to add the same winner multiple times
                 {
                     winners.Add(winner);
                 }
             }
+            else
+            {
+                throw new InvalidOperationException("Winner not found for the winning ticket.");
+            }
+        }
+
+        foreach (var winner in winners) // Clear tickets of winners, looks better
+        {
+            winner.Tickets.Clear();
         }
 
         return winners;
@@ -138,9 +164,9 @@ public class LotteryService : ILotteryService
         AddEntrant("Charlie");
         GenerateTickets();
         GenerateWines();
-        BuyTicket("Alice", new List<int> { 1, 2, 3 });
-        BuyTicket("Bob", new List<int> { 4, 5, 6 });
-        BuyTicket("Charlie", new List<int> { 7, 8, 9 });
+        BuyTicket("Alice", new List<int> { 1, 2, 3, 4, 5, 6, 7});
+        BuyTicket("Bob", new List<int> { 13, 15, 17, 19, 21});
+        BuyTicket("Charlie", new List<int> { 33, 44, 55, 66, 77});
         return RunLottery();
     }
 
@@ -149,5 +175,10 @@ public class LotteryService : ILotteryService
         Entrants.Clear();
         Tickets.Clear();
         Wines.Clear();
+    }
+
+    private List<int> GetBoughtTickets()
+    {
+        return Entrants.SelectMany(e => e.Tickets).Select(t => t.Number).ToList();
     }
 }
